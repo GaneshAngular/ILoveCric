@@ -9,11 +9,11 @@ export const routes: Routes = [{
   pathMatch:"full"
 },{
   path:'home',
-  component:HomeComponent
+  loadComponent:()=>import('../../src/app/pages/home/home.component').then(h=>h.HomeComponent)
 },{
    path:'signin',
-   component:SigninComponent
+   loadComponent:()=>import('../../src/app/pages/signin/signin.component').then(h=>h.SigninComponent)
 },{
   path:'signup',
-  component:SignupComponent
+  loadComponent:()=>import('../../src/app/pages/signup/signup.component').then(h=>h.SignupComponent)
 }];
