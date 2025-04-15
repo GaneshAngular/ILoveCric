@@ -20,6 +20,7 @@ const login=async(req ,reply)=>{
 
 const signup=async(req ,reply)=>{
     const user=req.body
+      
     user.password=await SERVICES.BCRYPT.getHashPassWord(user.password)
          const existData=await userModel.findOne({$or:[{email:user.email},{mobile:user.mobile}]})
          if(existData) return reply.send({message:"Details Already Exist"})

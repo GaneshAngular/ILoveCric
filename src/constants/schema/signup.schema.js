@@ -1,7 +1,7 @@
 const signupSchema = {
     body: {
         type: 'object',
-        required: ['email', 'password', 'name', 'mobile', 'dob', 'gender'],
+        required: ['email', 'password', 'name'],
         properties: {
             email: { type: 'string', format: 'email' },
             password: { type: 'string', pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" },

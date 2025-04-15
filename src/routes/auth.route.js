@@ -6,7 +6,7 @@ import CONTROLLER from "../controllers/app.controller.js"
 
 const authRoute=async(fastify,options)=>{
  
-    fastify.post('/login',{
+    fastify.post('/signin',{
       schema:SCHEMA.login
     },CONTROLLER.authController.login)
 

@@ -1,15 +1,17 @@
-import {model, Schema} from 'mongoose'
+import { model, Schema } from 'mongoose'
 
-const userSchema=new Schema({
-    name:{type:String,required:true},
-    email:{type:String,required:true,unique:true},
-    dob:{type:Date,required:true},
-    mobile:{type:Number,required:true,unique:true},
-    password:{type:String,required:true},
-    gender:{type:String,required:true},
-    specialization:{type:String,required:true},
-    active:{type:Boolean,default:true}
+const userSchema = new Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    profile: { type: String, default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
+    Address: { type: { city: { type: String }, country: { type: String } } },
+    dob: { type: Date },
+    mobile: { type: Number, unique: true },
+    password: { type: String },
+    gender: { type: String },
+    specialization: { type: String },
+    active: { type: Boolean, default: true }
 })
 
-const userModel=new model('User',userSchema)
+const userModel = new model('User', userSchema)
 export default userModel;
