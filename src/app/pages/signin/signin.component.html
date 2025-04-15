@@ -1,7 +1,7 @@
 <!-- Main container with theming inheritance -->
 <div class="h-screen w-screen overflow-hidden bg-inherit text-inherit flex items-center justify-center p-0 m-0">
   <!-- Content wrapper -->
-  <div class="w-full max-w-md mx-auto my-0 p-4">
+  <div class="w-full bg-inherit max-w-md mx-auto my-0 p-4">
 
     <!-- Logo section -->
     <div class="text-center mb-8">
@@ -15,12 +15,12 @@
         <img class="" src="/assests/images/cricket.png" alt="" srcset="">
       </div>
       <h2 class="mt-4 text-2xl font-bold">Cricket Team Manager</h2>
-      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your cricket team with ease</p>
+      <p class="mt-1 text-sm text-inherit">Manage your cricket team with ease</p>
     </div>
 
     <!-- Form container -->
     <div class="bg-inherit border border-gray-300 dark:border-gray-600 rounded-xl shadow-md p-6 w-full">
-      <form class="space-y-4" (ngSubmit)="onSubmit()">
+      <form class="space-y-4" [formGroup]="signinForm">
 
         <!-- Email Field -->
         <div>
@@ -32,7 +32,7 @@
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
             </div>
-            <input type="email" required [(ngModel)]="email" name="email"
+            <input type="email" required formControlName="email" name="email"
                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-inherit text-inherit placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-red-200 focus:border-red-300"
                    placeholder="you@example.com">
           </div>
@@ -48,43 +48,43 @@
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
               </svg>
             </div>
-            <input type="password" required [(ngModel)]="password" name="password"
+            <input type="password" required formControlName="password" name="password"
                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-inherit text-inherit placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-red-200 focus:border-red-300"
                    placeholder="••••••••">
           </div>
         </div>
 
         <!-- Remember Me + Forgot -->
-        <div class="flex justify-between items-center">
+        <!-- <div class="flex justify-between items-center">
           <div class="flex items-center">
             <input id="remember-me" type="checkbox"
                    class="h-4 w-4 text-red-300 focus:ring-red-200 border-gray-300 rounded">
             <label for="remember-me" class="ml-2 block text-sm text-inherit">Remember me</label>
           </div>
           <a href="#" class="text-sm font-medium text-red-400 hover:text-red-500">Forgot password?</a>
-        </div>
+        </div> -->
 
         <!-- Submit Button -->
-        <button type="submit"
-                class="w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-200">
+        <button (click)="onSignIn()"
+                class="w-full cursor-pointer py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-200">
           Sign in
         </button>
       </form>
 
       <!-- Divider -->
-      <div class="mt-6">
-        <div class="relative">
+      <div class="mt-6 bg-inherit">
+        <div class="relative bg-inherit">
           <div class="absolute inset-0 flex items-center">
             <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
           </div>
-          <div class="relative flex justify-center">
-            <span class="px-2 bg-inherit text-sm text-gray-500 dark:text-gray-400">Or continue with</span>
+          <div class="relative flex bg-inherit justify-center text-inherit">
+            <span class="px-2 bg-inherit text-sm text-inherit ">Or continue with</span>
           </div>
         </div>
 
         <!-- Google Login Button -->
         <button (click)="googleSignIn()"
-                class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-inherit text-sm font-medium text-inherit hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-200">
+                class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-inherit text-sm font-medium text-inherit hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#EA4335"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

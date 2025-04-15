@@ -1,31 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../core/services/user/user.service';
 
 @Component({
   selector: 'app-signup',
-  imports: [FormsModule,CommonModule,RouterLink],
+  imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  fullName: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
 
+userService=inject(UserService)
+
+  signupForm=new FormGroup({
+    name:new FormControl('',[Validators.required]),
+    email:new FormControl('',[Validators.required]),
+    password:new FormControl('',[Validators.required]),
+
+  })
   onSignup() {
-    if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-
-    // Here you would typically call your auth service
-    console.log('User signed up:', {
-      fullName: this.fullName,
-      email: this.email,
-      password: this.password,
-    });
+    if(this.signupForm.invalid)return
+      this.userService.signup(this.signupForm.value).subscribe((res:any)=>{
+           alert(res.message)
+      })
   }
 }
