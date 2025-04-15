@@ -1,0 +1,80 @@
+<div class="relative min-h-screen overflow-hidden bg-inherit text-inherit">
+  <div class="absolute inset-0 z-0 opacity-20">
+    <img src="https://www.transparenttextures.com/patterns/cubes.png" class="w-full h-full object-cover" alt="pattern background">
+  </div>
+
+  <div class="relative z-10 min-h-screen flex flex-col">
+    <header class="px-6 py-6 sm:px-8 flex justify-between items-center animate-fade-down bg-inherit text-inherit">
+      <div class="flex items-center">
+        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center shadow-gray-400 shadow-lg mr-3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-6 h-6 text-white">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="2"/>
+            <path d="M50 20 L50 80 M20 50 L80 50" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="50" cy="50" r="10" fill="white"/>
+          </svg>
+        </div>
+        <span class="text-white text-2xl font-bold">I❤️Cric</span>
+      </div>
+      <nav class="hidden md:flex text-inherit space-x-6">
+        <a href="#" class="text-inherit hover:text-red-300 text-sm font-medium">Features</a>
+        <a href="#" class="text-inherit hover:text-red-300 text-sm font-medium">Teams</a>
+        <a href="#" class="text-inherit hover:text-red-300 text-sm font-medium">Stats</a>
+        <a href="#" class="text-inherit hover:text-red-300 text-sm font-medium">About</a>
+      </nav>
+      <button (click)="toggleMenu()" class="md:hidden text-inherit">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Mobile Menu Links -->
+    <div *ngIf="menuOpen" class="md:hidden px-6 pb-4">
+      <a href="#" class="block text-white py-2">Features</a>
+      <a href="#" class="block text-white py-2">Teams</a>
+      <a href="#" class="block text-white py-2">Stats</a>
+      <a href="#" class="block text-white py-2">About</a>
+    </div>
+
+    <main class="flex-grow flex items-center bg-inherit text-inherit">
+      <div class="container mx-auto px-6 sm:px-8 py-12 text-inherit">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight text-inherit">
+            <span class="block">Transform Your</span>
+            <span class="block text-red-400">Cricket Management</span>
+          </h1>
+          <p class="text-xl text-inherit mb-10 max-w-2xl mx-auto">
+            Tools for teams, players, and coaches to track performance, manage schedules, and analyze stats.
+          </p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a routerLink="/signup" class="px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-lg">
+              Get Started - It's Free
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Stats Section -->
+    <div class="container mx-auto px-6 sm:px-8 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-white/5 p-6 rounded-xl border border-inherit text-center">
+          <div class="text-3xl font-bold text-red-400 mb-2">10K+</div>
+          <div class="text-inherit">Active Teams</div>
+        </div>
+        <div class="bg-white/5 p-6 rounded-xl border border-inherit text-center">
+          <div class="text-3xl font-bold text-red-400 mb-2">50K+</div>
+          <div class="text-inherit">Matches Tracked</div>
+        </div>
+        <div class="bg-white/5 p-6 rounded-xl border border-inherit text-center">
+          <div class="text-3xl font-bold text-red-400 mb-2">100+</div>
+          <div class="text-inherit">Tournaments</div>
+        </div>
+        <div class="bg-white/5 p-6 rounded-xl border border-inherit text-center">
+          <div class="text-3xl font-bold text-red-400 mb-2">24/7</div>
+          <div class="text-inherit">Support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
