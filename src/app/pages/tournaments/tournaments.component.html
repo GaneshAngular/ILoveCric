@@ -1,0 +1,184 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8 text-center animate-fade-in">
+      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Cricket Tournaments
+      </h1>
+      <p class="mt-3 max-w-2xl mx-auto text-lg text-gray-600">
+        Explore upcoming, ongoing and completed cricket tournaments worldwide
+      </p>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 animate-fade-in animate-delay-100">
+      <!-- Sort Controls -->
+      <div class="flex space-x-2">
+        <button (click)="filterType = 'all'"
+                [class]="filterType === 'all' ?
+                'px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500' :
+                'px-4 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'">
+          All Tournaments
+        </button>
+        <button (click)="filterType = 'international'"
+                [class]="filterType === 'international' ?
+                'px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500' :
+                'px-4 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'">
+          International
+        </button>
+        <button (click)="filterType = 'domestic'"
+                [class]="filterType === 'domestic' ?
+                'px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500' :
+                'px-4 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'">
+          Domestic
+        </button>
+      </div>
+
+      <!-- Host Tournament Button -->
+      <button (click)="openHostModal()"
+              class="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Host Tournament
+      </button>
+    </div>
+
+    <!-- Tournaments Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in animate-delay-200">
+      <!-- Tournament Card 1 -->
+      <div *ngFor="let tournament of filteredTournaments"
+           class="bg-white overflow-hidden shadow rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-12 w-12 rounded-full object-contain" [src]="tournament.logo" [alt]="tournament.name + ' logo'">
+              <div class="ml-4">
+                <h3 class="text-lg font-medium text-gray-900">{{ tournament.name }}</h3>
+                <p class="text-sm text-gray-500">{{ tournament.organizer }}</p>
+              </div>
+            </div>
+            <span [class]="getStatusBadgeClass(tournament.status)">
+              {{ tournament.status | titlecase }}
+            </span>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-gray-500">Start Date</p>
+              <p class="text-sm font-medium text-gray-900">{{ tournament.startDate | date:'mediumDate' }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">End Date</p>
+              <p class="text-sm font-medium text-gray-900">{{ tournament.endDate | date:'mediumDate' }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Teams</p>
+              <p class="text-sm font-medium text-gray-900">{{ tournament.teams }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Matches</p>
+              <p class="text-sm font-medium text-gray-900">{{ tournament.matches }}</p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <p class="text-sm text-gray-500">Prize Money</p>
+            <p class="text-sm font-medium text-gray-900">{{ tournament.prizeMoney }}</p>
+          </div>
+
+          <div class="mt-5">
+            <button class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredTournaments.length === 0" class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <h3 class="mt-2 text-lg font-medium text-gray-900">No tournaments found</h3>
+      <p class="mt-1 text-sm text-gray-500">There are no tournaments matching your filters.</p>
+    </div>
+  </div>
+
+  <!-- Host Tournament Modal -->
+  <div *ngIf="showHostModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @fadeInOut></div>
+
+      <!-- Modal panel -->
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+           @slideInOut>
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                Host New Tournament
+              </h3>
+              <div class="mt-2">
+                <form class="space-y-4" (ngSubmit)="hostTournament()" #tournamentForm="ngForm">
+                  <div>
+                    <label for="tournament-name" class="block text-sm font-medium text-gray-700">Tournament Name</label>
+                    <input type="text" id="tournament-name" name="tournament-name" required
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                  </div>
+
+                  <div>
+                    <label for="tournament-type" class="block text-sm font-medium text-gray-700">Tournament Type</label>
+                    <select id="tournament-type" name="tournament-type" required
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
+                      <option value="domestic">Domestic</option>
+                      <option value="international">International</option>
+                    </select>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label for="start-date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                      <input type="date" id="start-date" name="start-date" required
+                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div>
+                      <label for="end-date" class="block text-sm font-medium text-gray-700">End Date</label>
+                      <input type="date" id="end-date" name="end-date" required
+                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="prize-money" class="block text-sm font-medium text-gray-700">Prize Money (USD)</label>
+                    <input type="text" id="prize-money" name="prize-money"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
+                           placeholder="e.g. $100,000">
+                  </div>
+
+                  <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                    <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm">
+                      Create Tournament
+                    </button>
+                    <button type="button" (click)="closeHostModal()"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
