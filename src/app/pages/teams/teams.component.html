@@ -31,6 +31,15 @@
           Domestic
         </button>
       </div>
+
+      <!-- Create Team Button -->
+      <button (click)="openCreateModal()"
+              class="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Create Team
+      </button>
     </div>
 
     <!-- Teams Grid -->
@@ -43,6 +52,11 @@
             <div>
               <h3 class="text-lg font-semibold text-gray-900">{{ team.name }}</h3>
               <p class="text-sm text-gray-500">{{ team.country }}</p>
+              <span [class]="team.type === 'international' ?
+                    'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1' :
+                    'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1'">
+                {{ team.type | titlecase }}
+              </span>
             </div>
           </div>
 
@@ -82,6 +96,101 @@
       </svg>
       <h3 class="mt-2 text-lg font-medium text-gray-900">No teams found</h3>
       <p class="mt-1 text-sm text-gray-500">Try changing the filters to see teams.</p>
+    </div>
+  </div>
+
+  <!-- Create Team Modal -->
+  <div *ngIf="showCreateModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" >
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-transparent bg-opacity-25 transition-opacity" aria-hidden="true" @modalFade></div>
+
+      <!-- Modal panel -->
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+           @modalSlide>
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                Create New Team
+              </h3>
+              <div class="mt-2">
+                <form class="space-y-4" (ngSubmit)="createTeam()" #teamForm="ngForm">
+                  <div>
+                    <label for="team-name" class="block text-sm font-medium text-gray-700">Team Name</label>
+                    <input type="text" id="team-name" name="team-name" required
+                           [(ngModel)]="newTeam.name"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                  </div>
+
+                  <div>
+                    <label for="team-country" class="block text-sm font-medium text-gray-700">Country</label>
+                    <input type="text" id="team-country" name="team-country" required
+                           [(ngModel)]="newTeam.country"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                  </div>
+
+                  <div>
+                    <label for="team-type" class="block text-sm font-medium text-gray-700">Team Type</label>
+                    <select id="team-type" name="team-type" required
+                            [(ngModel)]="newTeam.type"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
+                      <option value="international">International</option>
+                      <option value="domestic">Domestic</option>
+                    </select>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label for="team-captain" class="block text-sm font-medium text-gray-700">Captain</label>
+                      <input type="text" id="team-captain" name="team-captain"
+                             [(ngModel)]="newTeam.captain"
+                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div>
+                      <label for="team-coach" class="block text-sm font-medium text-gray-700">Coach</label>
+                      <input type="text" id="team-coach" name="team-coach"
+                             [(ngModel)]="newTeam.coach"
+                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="team-logo" class="block text-sm font-medium text-gray-700">Logo URL</label>
+                    <input type="text" id="team-logo" name="team-logo"
+                           [(ngModel)]="newTeam.logo"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
+                           placeholder="https://example.com/logo.png">
+                  </div>
+
+                  <div>
+                    <label for="team-founded" class="block text-sm font-medium text-gray-700">Year Founded</label>
+                    <input type="number" id="team-founded" name="team-founded"
+                           [(ngModel)]="newTeam.founded"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                  </div>
+
+                  <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                    <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm">
+                      Create Team
+                    </button>
+                    <button type="button" (click)="closeCreateModal()"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
