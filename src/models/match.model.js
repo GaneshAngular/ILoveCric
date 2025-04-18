@@ -3,21 +3,21 @@ import { Schema, model } from "mongoose";
 const matchSchema = new Schema({
   tournament: { type: Schema.Types.ObjectId, ref: "Tournament", required: true },
   team1: {
-    id: { type: Schema.Types.ObjectId, ref: "Teams", required: true },
+    id: { type: Schema.Types.ObjectId, ref: "Team", required: true },
     score: {
       runs: { type: Number, default: 0 },
       wickets: { type: Number, default: 0 },
     },
     batsmans: [
       {
-        id: { type: Schema.Types.ObjectId, ref: "Users" },
+        id: { type: Schema.Types.ObjectId, ref: "User" },
         runs: { type: Number, default: 0 },
         balls: { type: Number, default: 0 },
       },
     ],
     bowlers: [
       {
-        id: { type: Schema.Types.ObjectId, ref: "Users" },
+        id: { type: Schema.Types.ObjectId, ref: "User" },
         runs: { type: Number, default: 0 },
         wickets: { type: Number, default: 0 },
         balls: { type: Number, default: 0 },
@@ -31,21 +31,21 @@ const matchSchema = new Schema({
     ],
   },
   team2: {
-    id: { type: Schema.Types.ObjectId, ref: "Teams", required: true },
+    id: { type: Schema.Types.ObjectId, ref: "Team", required: true },
     score: {
       runs: { type: Number, default: 0 },
       wickets: { type: Number, default: 0 },
     },
     batsmans: [
       {
-        id: { type: Schema.Types.ObjectId, ref: "Users" },
+        id: { type: Schema.Types.ObjectId, ref: "User" },
         runs: { type: Number, default: 0 },
         balls: { type: Number, default: 0 },
       },
     ],
     bowlers: [
       {
-        id: { type: Schema.Types.ObjectId, ref: "Users" },
+        id: { type: Schema.Types.ObjectId, ref: "User" },
         runs: { type: Number, default: 0 },
         wickets: { type: Number, default: 0 },
         balls: { type: Number, default: 0 },

@@ -4,7 +4,7 @@ import CONTROLLER from "../controllers/app.controller.js"
 
 
 
-const authRoute=async(fastify,options)=>{
+const authRoute=(fastify,options)=>{
  
     fastify.post('/signin',{
       schema:SCHEMA.login
