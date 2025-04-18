@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { HighLightDirective } from '../../shared/directives/high-light.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
