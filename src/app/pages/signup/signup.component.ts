@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../core/services/user/user.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { UserService } from '../../core/services/user/user.service';
 export class SignupComponent {
 
 userService=inject(UserService)
+router=inject(Router)
 
   signupForm=new FormGroup({
     name:new FormControl('',[Validators.required]),
@@ -24,6 +25,7 @@ userService=inject(UserService)
     if(this.signupForm.invalid)return
       this.userService.signup(this.signupForm.value).subscribe((res:any)=>{
            alert(res.message)
+           this.router.navigate(['signin'])
       })
   }
 }

@@ -16,4 +16,13 @@ export class UserService {
     return this.httpService.post(API.signup,data)
   }
 
+  googleSignIn(data:any){
+    return this.httpService.post(API.googleSignin,data)
+
+  }
+
+  getProfile(){
+    return this.httpService.get(API.profile)
+  }
+
 }

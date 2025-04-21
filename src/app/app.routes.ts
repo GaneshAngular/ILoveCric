@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
+import { isLogoutGuard } from './core/guards/isLogout/is-logout.guard';
+import { isLoggedGuard } from './core/guards/isLogged/is-logged.guard';
 
 export const routes: Routes = [
   {
@@ -22,6 +24,7 @@ export const routes: Routes = [
       import('../../src/app/pages/signin/signin.component').then(
         (h) => h.SigninComponent
       ),
+      canActivate:[isLogoutGuard]
   },
   {
     path: 'signup',
@@ -29,6 +32,8 @@ export const routes: Routes = [
       import('../../src/app/pages/signup/signup.component').then(
         (h) => h.SignupComponent
       ),
+      canActivate:[isLogoutGuard]
+
   },
   {
     path: 'cricket',
@@ -36,11 +41,18 @@ export const routes: Routes = [
       import('../../src/app/pages/cric-home/cric-home.component').then(
         (h) => h.CricHomeComponent
       ),
+      canActivate:[isLoggedGuard],
     children: [
       {
         path: '',
         redirectTo: 'matches',
         pathMatch: 'full',
+      },{
+        path:'profile',
+        loadComponent:()=> import('../../src/app/pages/profile/profile.component').then(
+          (h) => h.ProfileComponent
+        ),
+        canActivate:[isLoggedGuard]
       },
       {
         path:'matches',

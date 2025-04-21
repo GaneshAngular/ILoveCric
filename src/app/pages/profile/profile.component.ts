@@ -1,0 +1,71 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../../core/services/user/user.service';
+
+@Component({
+  selector: 'app-profile',
+  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
+})
+export class ProfileComponent {
+
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
+  isEditing = false;
+  user:any
+  isLoading = false;
+  userService=inject(UserService)
+  constructor() {
+  }
+
+  profileForm=new FormGroup({
+      name:new FormControl('',[Validators.required]),
+      email:new FormControl('',[Validators.required,Validators.email]),
+      mobile:new FormControl('',[Validators.required,Validators.pattern('/^[0-9]{10}$/')]),
+      specialization:new FormControl('',[]),
+      city:new FormControl('',[]),
+      country:new FormControl('',[]),
+      dob:new FormControl('',[]),
+      password:new FormControl('',[]),
+      gender:new FormControl('',[])
+  })
+
+  ngOnInit(){
+    this.loadProfile()
+  }
+
+  loadProfile(){
+  this.userService.getProfile().subscribe((res:any)=>{
+    console.log(res)
+    this.user=res
+  })
+  }
+  openEditModal() {
+    this.isEditing = !this.isEditing;
+
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type.match('image.*')) {
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+
+  }
+
+  onSubmit() {
+
+  }
+}

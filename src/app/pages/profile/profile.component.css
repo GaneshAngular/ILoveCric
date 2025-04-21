@@ -1,0 +1,47 @@
+/* Modal Customization */
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Stats Cards */
+.stats-card {
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark mode transitions */
+.dark .stats-card {
+  background-color: #374151;
+}
+
+.dark .stats-card:hover {
+  background-color: #4b5563;
+}
+
+/* Form inputs */
+input:focus {
+  outline: none;
+  ring: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .player-card {
+    margin-bottom: 1.5rem;
+  }
+}

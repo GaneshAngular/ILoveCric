@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../core/services/user/user.service';
-
+import { jwtDecode } from 'jwt-decode';
+import environment from '../../../../environments/environment';
 @Component({
   selector: 'app-signin',
   imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule],
@@ -22,19 +23,47 @@ export class SigninComponent {
     private router: Router
   ) {}
 
+  ngOnInit(){
+    this.initializeGoogleSignIn()
 
+  }
+
+  initializeGoogleSignIn() {
+    //@ts-ignore
+    google.accounts.id.initialize({
+      client_id:environment.google_client_id,
+      callback: this.handleCredentialResponse.bind(this),
+    });
+    //@ts-ignore
+    google.accounts.id.renderButton(
+      document.getElementById('google-btn'),
+      { theme: 'outline', size: 'large' }
+    );
+  }
+
+  handleCredentialResponse(response: any) {
+
+    const { credential: token } = response;
+    const { name, email, picture }: any = jwtDecode(token)
+
+    this.userService.googleSignIn({name,email,picture}).subscribe((res:any)=>{
+         alert(res.message)
+         localStorage.setItem('token',res.token)
+    })
+
+  }
   onSignIn() {
-    if(this.signinForm.invalid)return 
+    if(this.signinForm.invalid)return
 
     this.userService.signin(this.signinForm.value).subscribe((res:any)=>{
        alert(res.message)
-       console.log(res)
+      const token:string=res.token
+      localStorage.setItem('token',token)
+      this.router.navigate(['/cricket'])
     })
   }
 
   googleSignIn() {
-    // this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    //   .then(() => this.router.navigate(['/dashboard']))
-    //   .catch(error => alert(error.message));
+
   }
 }
