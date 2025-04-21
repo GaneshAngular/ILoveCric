@@ -1,9 +1,11 @@
 import authController from "./auth.controller.js";
 import teamsController from "./teams.controller.js";
+import userController from './user.controller.js';
 
-const CONTROLLER={
+
+
+export  {
     authController,
-    teamsController
-}
-
-export default CONTROLLER;
+    teamsController,
+    userController
+};

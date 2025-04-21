@@ -17,8 +17,9 @@ const addTeams=async(req,reply)=>{
 const getTeams=async(req,reply)=>{
     const {search}=req.query
 
-    const pattern=search?{$regx:{name:search}}:{}
-   const teams= await MODELS.teamModel.find(pattern).populate('owner')
+    const pattern = search ? { name: { $regex: search, $options: 'i' } } : {};
+    const teams = await MODELS.teamModel.find(pattern).populate('owner');
+    
 
    return reply.send(teams)
 }

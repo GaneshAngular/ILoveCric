@@ -1,12 +1,12 @@
-import CONTROLLER from "../controllers/app.controller.js"
+import {teamsController} from "../controllers/app.controller.js"
 
 
 const teamRoutes=(fastify,options)=>{
      
-    fastify.post('/',CONTROLLER.teamsController.addTeams)
-    fastify.get('/',CONTROLLER.teamsController.getTeams)
-    fastify.put('/',CONTROLLER.teamsController.updateTeams)
-    fastify.delete('/',CONTROLLER.teamsController.deleteTeams)
+    fastify.post('/',teamsController.addTeams)
+    fastify.get('/',teamsController.getTeams)
+    fastify.put('/',teamsController.updateTeams)
+    fastify.delete('/',teamsController.deleteTeams)
 
 }
 

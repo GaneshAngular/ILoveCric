@@ -29,9 +29,29 @@ const signup=async(req ,reply)=>{
         
         return reply.send({message:"Signup Success!",data:newUser}) 
 }
+const googleSignIn=async(req,reply)=>{
+      const {name,email,picture}=req.body
+      if(!email) return reply.send({message:"Somethin went wrong"})
+        
+        const isExist=await userModel.findOne({email})
+       
+         if(isExist) {
+         
+          const token=SERVICES.JWT.generateToken({email,id:isExist._id})
+          return reply.send({message:"Login Success!",token})
+         }
+         console.log("working")
+         const user=  await userModel.create({name,email,profile:picture})
+          console.log("user created",user)
+        
+         const token=SERVICES.JWT.generateToken({email,id:user._id})
+         return reply.send({message:"Login Success!",token})
+         
+       
+}
 
 const forgotPassword=async(req , reply)=>{
        
 }
 
-export default {login,signup,forgotPassword}
+export default {login,signup,forgotPassword,googleSignIn}

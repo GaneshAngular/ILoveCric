@@ -4,6 +4,7 @@ import appRoute from '../routes/app.route.js';
 import cors from '@fastify/cors';
 import cookie from '@fastify/cookie';
 import connectDataBase from './database.config.js';
+import fastifyJwt from '@fastify/jwt';
 const fastify=Fastify({logger:process.env.LOGGER||false});
 
 
@@ -29,7 +30,9 @@ fastify.setErrorHandler((error, request, reply) => {
     });
   });
   
-
+  fastify.register(fastifyJwt, {
+    secret:process.env.JWT_SECREAT, // use env in real apps
+  });
 fastify.register(appRoute,{prefix:'/api'})
 fastify.register(cors,{origin:true,credentials:true})
 fastify.register(cookie)
