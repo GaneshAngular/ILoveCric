@@ -23,12 +23,11 @@ export class ProfileComponent {
   profileForm=new FormGroup({
       name:new FormControl('',[Validators.required]),
       email:new FormControl('',[Validators.required,Validators.email]),
-      mobile:new FormControl('',[Validators.required,Validators.pattern('/^[0-9]{10}$/')]),
+      mobile:new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{10}$/)]),
       specialization:new FormControl('',[]),
       city:new FormControl('',[]),
       country:new FormControl('',[]),
       dob:new FormControl('',[]),
-      password:new FormControl('',[]),
       gender:new FormControl('',[])
   })
 
@@ -43,6 +42,7 @@ export class ProfileComponent {
   })
   }
   openEditModal() {
+    this.profileForm.patchValue(this.user)
     this.isEditing = !this.isEditing;
 
   }
@@ -62,6 +62,16 @@ export class ProfileComponent {
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
+
+  }
+
+  updateProfile(){
+    if(this.profileForm.invalid) return alert("Fill Valid Details..!")
+       if(confirm("Are you sure?"))
+        this.userService.updateProfile(this.profileForm.value).subscribe((res:any)=>{
+               alert(res.message)
+               this.loadProfile()
+        })
 
   }
 

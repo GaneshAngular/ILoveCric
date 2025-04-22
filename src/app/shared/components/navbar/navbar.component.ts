@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +12,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class NavbarComponent {
   isProfileMenuOpen = false;
   isMobileMenuOpen = false;
-
+  router=inject(Router)
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
   }
@@ -22,6 +22,8 @@ export class NavbarComponent {
   }
 
   signOut() {
-    if (confirm('are you sure?')) localStorage.removeItem('token');
+    if (confirm('are you sure?')){ localStorage.removeItem('token');
+        this.router.navigate(['/home'])
+    }
   }
 }

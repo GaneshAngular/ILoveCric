@@ -16,12 +16,12 @@ export class HttpService {
      return this.http.post(environment.server_url+url,data)
   }
 
-  delete(url:string,id:string){
+  delete(url:string,id?:any){
     return this.http.delete(environment.server_url+url,{params:new HttpParams().set("id",id)})
   }
 
-  put(url:string,id:string){
-    return this.http.put(environment.server_url+url,{params:new HttpParams().set("id",id)})
+  put(url:string,data:any,id?:any){
+    return this.http.put(environment.server_url+url,data,{params:new HttpParams().set("id",id)})
   }
 
 }

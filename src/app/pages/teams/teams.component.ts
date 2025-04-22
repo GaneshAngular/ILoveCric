@@ -1,107 +1,46 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TeamsService } from '../../core/services/teams/teams.service';
 
 @Component({
   selector: 'app-teams',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,ReactiveFormsModule],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.css'
 })
 export class TeamsComponent {
-  teamType: 'all' | 'international' | 'domestic' = 'all';
-  showCreateModal = false;
-  newTeam:any = {
-    type: 'international'
-  };
+  teams:any=[]
+  teamImage:any=''
+  file!:File
+  teamsService=inject(TeamsService)
 
-  teams: any[] = [
-    {
-      id: '1',
-      name: 'India',
-      country: 'India',
-      type: 'international',
-      logo: 'https://flagcdn.com/48x36/in.png',
-      matches: 1024,
-      wins: 650,
-      losses: 320,
-      captain: 'Rohit Sharma',
-      coach: 'Rahul Dravid',
-      founded: 1932
-    },
-    {
-      id: '2',
-      name: 'Australia',
-      country: 'Australia',
-      type: 'international',
-      logo: 'https://flagcdn.com/48x36/au.png',
-      matches: 980,
-      wins: 620,
-      losses: 300,
-      captain: 'Pat Cummins',
-      coach: 'Andrew McDonald',
-      founded: 1905
-    },
-    {
-      id: '3',
-      name: 'Mumbai Indians',
-      country: 'India',
-      type: 'domestic',
-      logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Mumbai_Indians_Logo.svg/1200px-Mumbai_Indians_Logo.svg.png',
-      matches: 231,
-      wins: 129,
-      losses: 98,
-      captain: 'Hardik Pandya',
-      coach: 'Mark Boucher',
-      founded: 2008
-    },
-    {
-      id: '4',
-      name: 'England',
-      country: 'England',
-      type: 'international',
-      logo: 'https://flagcdn.com/48x36/gb-eng.png',
-      matches: 950,
-      wins: 500,
-      losses: 380,
-      captain: 'Jos Buttler',
-      coach: 'Matthew Mott',
-      founded: 1877
-    },
-    {
-      id: '5',
-      name: 'Chennai Super Kings',
-      country: 'India',
-      type: 'domestic',
-      logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/Chennai_Super_Kings_Logo.svg/1200px-Chennai_Super_Kings_Logo.svg.png',
-      matches: 225,
-      wins: 131,
-      losses: 91,
-      captain: 'MS Dhoni',
-      coach: 'Stephen Fleming',
-      founded: 2008
-    },
-    {
-      id: '6',
-      name: 'New Zealand',
-      country: 'New Zealand',
-      type: 'international',
-      logo: 'https://flagcdn.com/48x36/nz.png',
-      matches: 800,
-      wins: 420,
-      losses: 330,
-      captain: 'Kane Williamson',
-      coach: 'Gary Stead',
-      founded: 1934
-    }
-  ];
-
-  get filteredTeams() {
-    if (this.teamType === 'all') {
-      return this.teams;
-    }
-    return this.teams.filter(team => team.type === this.teamType);
+  ngOnInit(){
+    this.loadTeams()
   }
+onFileSelected($event:any)
+{
+    this.file=$event.target.files[0]
+    console.log(this.file)
+    if (this.file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.teamImage= reader.result;
+      };
+      reader.readAsDataURL(this.file); // 👈 Convert to base64 string
+    }
+}
+  showCreateModal = false;
+
+
+  teamForm=new FormGroup({
+     name:new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z\s]{2,}$/)]),
+     country:new FormControl('',[Validators.required]),
+     year:new FormControl('',[Validators.required])
+  })
+
+
+
 
   openCreateModal() {
     this.showCreateModal = true;
@@ -109,14 +48,30 @@ export class TeamsComponent {
 
   closeCreateModal() {
     this.showCreateModal = false;
-    this.newTeam = { type: 'international' }; // Reset form
+
   }
 
   createTeam() {
-    // Generate ID and add to teams array
+     if(this.teamForm.invalid)return alert("Fill valid details")
 
+      const formData = new FormData();
+formData.append('name', this.teamForm.value.name||'');
+formData.append('country', this.teamForm.value.country||'');
+formData.append('year', this.teamForm.value.year||'');
+formData.append('profile', this.file); // 👈 your selected file
+
+this.teamsService.createTeam(formData).subscribe((res: any) => {
+  alert(res.message);
+});
 
 
     this.closeCreateModal();
+  }
+
+  loadTeams(){
+    this.teamsService.getTeams().subscribe((res:any)=>{
+      console.log(res)
+      this.teams=res
+    })
   }
 }

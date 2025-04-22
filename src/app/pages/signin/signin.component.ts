@@ -49,6 +49,7 @@ export class SigninComponent {
     this.userService.googleSignIn({name,email,picture}).subscribe((res:any)=>{
          alert(res.message)
          localStorage.setItem('token',res.token)
+         this.router.navigate(['/cricket'])
     })
 
   }

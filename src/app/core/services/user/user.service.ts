@@ -25,4 +25,9 @@ export class UserService {
     return this.httpService.get(API.profile)
   }
 
+  updateProfile(data:any){
+    return this.httpService.put(API.user,data)
+
+  }
+
 }

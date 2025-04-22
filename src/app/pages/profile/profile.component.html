@@ -1,5 +1,5 @@
-<div class="bg-inherit text-inherit min-h-screen p-4 md:p-8 mt-10">
-  <div class="max-w-6xl mx-auto">
+<div class="bg-inherit text-inherit  md:p-4  mt-20">
+  <div class="max-w-6xl bg-inherit mx-auto">
     <!-- Profile Header -->
 
     <!-- Profile Content -->
@@ -41,7 +41,7 @@
 
             <h2 class="text-xl font-bold">{{ user?.name }}</h2>
             <p class="text-blue-600 dark:text-blue-400">
-              {{ user?.specilization }}
+              {{ user?.specialization }}
             </p>
             <p class="">{{ user?.email }}</p>
           </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div>
                       <p class="text-sm">DOB</p>
-                      <p class="">{{ user?.dob ||"NOT AVAILABLE"  }}</p>
+                      <p class="">{{ user?.dob ||"NOT AVAILABLE"  |date}}</p>
                     </div>
                   </div>
                 </div>
@@ -130,8 +130,8 @@
     </div>
 
     <!-- Edit Profile Modal -->
-    <div *ngIf="isEditing" class="absolute top-20 w-full px-10">
-      <div class="modal-header bg-blue-600 text-white">
+    <div *ngIf="isEditing" class="absolute bg-white border border-gray-400 z-10 top-4 w-full md:left-4/12 md:w-4/12 md:px-5 rounded-2xl md:py-3">
+      <div class="modal-header bg-blue-600 text-white flex justify-between ">
         <h4 class="modal-title">Edit Player Profile</h4>
         <button
           type="button"
@@ -142,84 +142,106 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body bg-white dark:bg-gray-800 p-4">
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Blur -->
+      <div class="fixed inset-0 bg-inherit blur-md -z-10 bg-opacity-75 transition-opacity" aria-hidden="true" @modalFade></div>
+
+      <div class=" bg-inherit w-full p-4">
+        <form class="w-full bg-inherit" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          <div class="grid grid-cols-1  gap-4 ">
             <!-- Right Column -->
-            <div>
-              <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 mb-1"
+            <div >
+              <div class="mb-4 w-full">
+                <label class="block mb-1"
                   >Full Name</label
                 >
                 <input
                   type="text"
                   formControlName="name"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                 />
               </div>
 
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                <label class="block  mb-1"
                   >Email</label
                 >
                 <input
                   type="email"
                   formControlName="email"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                 />
               </div>
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 mb-1"
-                  >Gender</label
+                <label class="block  mb-1"
+                  >Dob</label
                 >
                 <input
-                  type="email"
+                  type="date"
+                  formControlName="dob"
+                  class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                />
+              </div>
+              <div class="flex justify-between w-full">
+              <div class="mb-4">
+                <label class="block  mb-1"
+                  >Gender</label
+                >
+                <!-- <input
+                  type=""
                   formControlName="gender"
                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                />
+                /> -->
+                 <select name="gender" formControlName="gender" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ">
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                 </select>
               </div>
 
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                <label class="block  mb-1"
                   >Mobile</label
                 >
                 <input
                   type="tel"
                   formControlName="mobile"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                 />
               </div>
+            </div>
 
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                <label class="block  mb-1"
                   >Specilization</label
                 >
                 <input
                   type="text"
                   formControlName="specialization"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                 />
               </div>
               <div class="flex gap-1">
                 <div class="mb-4">
-                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                  <label class="block mb-1"
                     >City</label
                   >
                   <input
                     type="text"
                     formControlName="city"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                   />
                 </div>
 
                 <div class="mb-4">
-                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                  <label class="block  mb-1"
                     >Country</label
                   >
                   <input
                     type="text"
                     formControlName="country"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -228,7 +250,7 @@
             <!-- Full Width Fields -->
           </div>
 
-          <div class="mt-6 flex justify-end space-x-3">
+          <div class="mt-6 flex  space-x-3">
             <button
               type="button"
               (click)="openEditModal()"
@@ -239,6 +261,7 @@
             <button
               type="submit"
               class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              (click)="updateProfile()"
             >
               Save Changes
             </button>

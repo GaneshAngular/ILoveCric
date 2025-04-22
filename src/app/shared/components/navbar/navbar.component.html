@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-sm fixed top-3 w-full z-10">
+<nav class="bg-white shadow-sm fixed top-3 w-full z-10  rounded-4xl">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <!-- Left side - Logo and Desktop Nav -->
@@ -18,17 +18,17 @@
         <!-- Desktop Navigation -->
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
           <a routerLink="/cricket/matches"
-             class="border-red-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+             class="border-red-500 text-gray-900 inline-flex items-center px-2 py-1 border-b-2 text-sm font-medium"
              routerLinkActive="bg-red-50">
             Matches
           </a>
           <a routerLink="/cricket/tournaments"
-             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-             routerLinkActive="bg-red-50  border-red-500 text-gray-900">
+             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-1 border-b-2 text-sm font-medium"
+             routerLinkActive="bg-red-100  border-red-500 text-gray-900">
             Tournaments
           </a>
           <a routerLink="/cricket/teams"
-             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-2 py-1 border-b-2 text-sm font-medium"
              routerLinkActive="bg-red-50 border-red-500 text-gray-900">
             Teams
           </a>
@@ -71,23 +71,23 @@
        @slideInOut>
     <div class="pt-2 pb-3 space-y-1">
       <a routerLink="/cricket/matches"
-         class="bg-red-50 border-red-500 text-red-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-         routerLinkActive="bg-red-50 border-red-500 text-red-700">
+         class="bg-red-50 border-red-500 text-red-700 block pl-3 pr-4 py-3 border-l-4 text-base font-medium"
+         routerLinkActive="bg-red-100 border-red-500 text-red-700">
         Matches
       </a>
       <a routerLink="/cricket/tournaments"
-         class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-         routerLinkActive="bg-red-50 border-red-500 text-red-700">
+         class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-4 border-l-4 text-base font-medium"
+         routerLinkActive="bg-red-100 border-red-500 text-red-700">
         Tournaments
       </a>
       <a routerLink="/cricket/teams"
          class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-         routerLinkActive="bg-red-50 border-red-500 text-red-700">
+         routerLinkActive="bg-red-100 border-red-500 text-red-700">
         Teams
       </a>
       <a routerLink="/cricket/completed"
          class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-         routerLinkActive="bg-red-50 border-red-500 text-red-700">
+         routerLinkActive="bg-red-100 border-red-500 text-red-700">
         Completed
       </a>
     </div>
@@ -114,9 +114,9 @@
 
 <!-- Profile dropdown panel - positioned absolutely outside the nav -->
 <div *ngIf="isProfileMenuOpen" class="fixed right-4 top-16 z-50">
-  <div class="origin-top-right w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none animate-fade-in" @fadeInOut>
-    <a  routerLink="/cricket/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
-    <a  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-    <a  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"  (click)="signOut()">Sign out</a>
+  <div class="origin-top-right w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-gray-500 ring-opacity-5 focus:outline-none animate-fade-in" @fadeInOut>
+    <a  routerLink="/cricket/profile" class="block px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100" (click)="toggleProfileMenu()">Your Profile</a>
+    <a  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100">Settings</a>
+    <a  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"  (click)="signOut();toggleProfileMenu();">Sign out</a>
   </div>
 </div>
