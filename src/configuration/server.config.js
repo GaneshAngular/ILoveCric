@@ -3,25 +3,30 @@ import 'dotenv/config'
 import appRoute from '../routes/app.route.js';
 import cors from '@fastify/cors';
 import cookie from '@fastify/cookie';
+
 import connectDataBase from './database.config.js';
 import fastifyJwt from '@fastify/jwt';
+import fastifyMultipart from '@fastify/multipart';
+
+
+
 const fastify=Fastify({logger:process.env.LOGGER||false});
 
 
 fastify.setErrorHandler((error, request, reply) => {
-    // Default error response structure
-    const statusCode = error.statusCode || 500;
+  // Default error response structure
+  const statusCode = error.statusCode || 500;
   
-    // Handle Fastify validation errors (Ajv)
-    if (error.validation) {
-      return reply.status(400).send({
+  // Handle Fastify validation errors (Ajv)
+  if (error.validation) {
+    return reply.status(400).send({
         statusCode: 400,
         error: 'Validation Error',
         message: error.message,
         fields: error.validation
       });
     }
-  
+    
     // Default error response
     reply.status(statusCode).send({
       statusCode,
@@ -33,8 +38,11 @@ fastify.setErrorHandler((error, request, reply) => {
   fastify.register(fastifyJwt, {
     secret:process.env.JWT_SECREAT, // use env in real apps
   });
-fastify.register(appRoute,{prefix:'/api'})
-fastify.register(cors,{origin:true,credentials:true})
+
+  fastify.register(fastifyMultipart);
+  ;
+  fastify.register(appRoute,{prefix:'/api'})
+fastify.register(cors,{origin:true,credentials:true,methods: ['GET', 'POST', 'PUT', 'DELETE']})
 fastify.register(cookie)
    
 await connectDataBase()

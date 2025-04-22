@@ -10,8 +10,18 @@ const getProfile=async(req,reply)=>{
 const getUsers=async(req , reply)=>{
 
 }
+
+const updateProfile=async(req,reply)=>{
+       const user=req.user
+       const data=req.body
+       console.log(data)
+       const newData=await MODELS.userModel.findByIdAndUpdate(user.id,data,{new:true})
+          
+        return reply.send({message:"Profile Updated..",data:newData})
+}
 const userController={
     getProfile,
-    getUsers
+    getUsers,
+    updateProfile
 }
 export default userController

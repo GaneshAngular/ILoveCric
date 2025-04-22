@@ -1,9 +1,10 @@
+import upload from "../configuration/multer-cloudinary.config.js"
 import {teamsController} from "../controllers/app.controller.js"
 
 
 const teamRoutes=(fastify,options)=>{
-     
-    fastify.post('/',teamsController.addTeams)
+    
+    fastify.post('/', teamsController.addTeams)
     fastify.get('/',teamsController.getTeams)
     fastify.put('/',teamsController.updateTeams)
     fastify.delete('/',teamsController.deleteTeams)
