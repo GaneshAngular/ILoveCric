@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto relative">
     <!-- Page Header -->
-    <div class="mb-8 text-center animate-fade-in">
+    <div class="my-10 text-center animate-fade-in">
       <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Cricket Teams</h1>
       <p class="mt-3 max-w-2xl mx-auto text-lg text-gray-600">
         Browse through national and domestic cricket teams across the globe.
@@ -9,18 +9,18 @@
     </div>
 
     <!-- Filter Bar -->
-    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 animate-fade-in animate-delay-100">
+    <div class="flex flex-col sm:flex-row justify-between items-center  gap-4 animate-fade-in animate-delay-100">
       <!-- Filters -->
 
       </div>
 
       <!-- Create Team Button -->
       <button (click)="openCreateModal()"
-              class="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              class="flex justify-end items-center text-center z-10 w-15 h-15 rounded-full  p-2 border border-transparent  shadow-sm  font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
-        Create Team
+
       </button>
     </div>
 
@@ -40,9 +40,16 @@
                 {{ team.type || "Not Mentioned" | titlecase  }}
               </span>
             </div>
+            <div class="self-end">
+              <button class="text-blue-600 " (click)="editTeam(team)">Edit</button>
+            </div>
           </div>
 
           <div class="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-700">
+            <div>
+              <p class="text-gray-500">Players</p>
+              <p class="font-medium">{{ team.players.length }}</p>
+            </div>
             <div>
               <p class="text-gray-500">Matches Played</p>
               <p class="font-medium">{{ team.matches }}</p>
@@ -107,7 +114,7 @@
 
                   <div class="relative mb-4 flex flex-col  items-center">
                     <img
-                      [src]="teamImage"
+                      [src]="teamImage||'https://www.shutterstock.com/shutterstock/photos/270996839/display_1500/stock-vector-modern-professional-vector-dream-team-logo-for-a-basketball-team-270996839.jpg'"
                       alt="Player Image"
                       class="w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg"
                     />
@@ -151,7 +158,30 @@
                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
                   </div>
 
+                    <div *ngIf="isUpdate" class="border border-gray-400 flex flex-col justify-between p-3">
+                       <div>
+                        <label for="player_name" class="block text-sm font-medium text-gray-700">Player Name</label>
+                        <input type="text" id="player_name" name="player_name" #player_name  required
+                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                       </div>
 
+                       <div>
+                        <label for="player_email" class="block text-sm font-medium text-gray-700">Player Email</label>
+                        <input type="text" id="player_email" #player_email name="player_email" required
+                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500">
+                       </div>
+                         <div class="mt-2">
+                          <button type="button" class="bg-blue-400 w-40 rounded-2xl py-2" (click)="addPlayer()">Add</button>
+                         </div>
+
+                        <div class="mt-2" *ngIf="team">
+                          <div class="border border-gray-400 p-1 rounded-2xl inline-flex gap-2" *ngFor="let item of team.players">
+                            <span  >{{item?.name||item.player_id?.name}}</span>
+                            <button type="button" (click)="removePlayer(item.name||item?.player_id?.name)">X</button>
+                          </div>
+                        </div>
+
+                    </div>
 
 
 
@@ -164,8 +194,8 @@
 
                   <div class="mt-5">
                     <button type="button"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm" (click)="createTeam()">
-                      Create Team
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm" (click)="isUpdate?updateTeam():createTeam()">
+                      {{isUpdate?'Update':'Create'}} Team
                     </button>
 
                   </div>

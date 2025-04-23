@@ -16,4 +16,8 @@ export class TeamsService {
     getTeams(){
       return this.http.get(API.teams)
     }
+
+    updateTeam(team:any){
+      return this.http.put(API.teams,team)
+    }
 }

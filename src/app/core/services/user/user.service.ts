@@ -24,6 +24,9 @@ export class UserService {
   getProfile(){
     return this.httpService.get(API.profile)
   }
+  updateProfileImage(data:any){
+    return this.httpService.put(API.profile,data)
+  }
 
   updateProfile(data:any){
     return this.httpService.put(API.user,data)

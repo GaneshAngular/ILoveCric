@@ -62,6 +62,18 @@ export class ProfileComponent {
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
+  }
+
+  uploadProfileImage(){
+    if(!this.selectedFile) return alert("Select profile Image")
+
+       const formData=new FormData()
+       formData.append('profile',this.selectedFile)
+       this.userService.updateProfileImage(formData).subscribe((res:any)=>{
+             alert(res.message)
+             this.loadProfile()
+             this.previewUrl=''
+       })
 
   }
 
