@@ -135,6 +135,13 @@ this.teamsService.createTeam(formData).subscribe((res: any) => {
         this.teamForm.patchValue(team)
   }
 
+  deleteTeam(id:string){
+     if(confirm("Are you sure?"))
+      this.teamsService.deleteTeam(id).subscribe((res:any)=>{
+        alert(res.message)
+      })
+  }
+
 
   loadTeams(){
     this.teamsService.getTeams().subscribe((res:any)=>{

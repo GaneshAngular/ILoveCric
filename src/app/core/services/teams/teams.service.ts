@@ -17,6 +17,10 @@ export class TeamsService {
       return this.http.get(API.teams)
     }
 
+    deleteTeam(id:string){
+      return this.http.delete(API.teams,id)
+    }
+
     updateTeam(team:any){
       return this.http.put(API.teams,team)
     }
