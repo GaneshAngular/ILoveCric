@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const playerSchema = new Schema({
-  player_id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  player_id: { type: Schema.Types.ObjectId, ref: 'User',  },
   role: { type: String, required: true }, 
 }, { _id: false });
 
